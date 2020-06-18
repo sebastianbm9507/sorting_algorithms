@@ -1,47 +1,49 @@
 #include "sort.h"
+
 /**
- * quick_sort - Quick sort algorithm
+ * quick_sort - quicksort function
  * @array: Array to be sorted
  * @size: Array size
  */
 void quick_sort(int *array, size_t size)
 {
-	qui_sort(array, 0, size - 1, size);
+	sort(array, 0, size - 1, size);
 }
 
 /**
- * qui_sort - Quick sort algorithm implementation
+ * sort - recursive sort function
  * @array: Array to be sorted
- * @low: lower index
- * @high: higher index
  * @size: Array size
- * Return:
+ * @low: Lower limit
+ * @high:  higher limit
  */
-void qui_sort(int *array, int low, int high, size_t size)
+void sort(int *array, int low, int high, size_t size)
 {
-	int part;
+	int pivot;
 
 	if (low < high)
 	{
-		part = partition(array, low, high, size);
-		qui_sort(array, low, part - 1, size);
-		qui_sort(array, part + 1, high, size);
+		pivot = partition(array, low, high, size);
+		sort(array, low, pivot - 1, size);
+		sort(array, pivot + 1, high, size);
 	}
 }
 
 /**
- * partition - Function that makes the partition of array
- * @array: Array
- * @low: lowwer index
- * @high: higher index
+ * partition - Return the index to make the partition
+ * @array: Array to be sorted
  * @size: Array size
- * Return: Index to make partition
+ * @low: Lower limit
+ * @high: Higher limit
+ * Return: return index to pivot
  */
-size_t partition(int *array, int low, int high, size_t size)
+int partition(int *array, int low, int high, size_t size)
 {
-	int aux, pivot = array[high];
-	int i = low - 1, j;
+	int pivot, i, j, temp_var;
 
+	pivot = array[high];
+
+	i = low - 1;
 	for (j = low; j < high; j++)
 	{
 		if (array[j] <= pivot)
@@ -49,19 +51,20 @@ size_t partition(int *array, int low, int high, size_t size)
 			i++;
 			if (i != j)
 			{
-				aux = array[i];
+				temp_var = array[i];
 				array[i] = array[j];
-				array[j] = aux;
+				array[j] = temp_var;
 				print_array(array, size);
 			}
 		}
 	}
-	if (i + 1 != high)
+	i++;
+	if (i != j)
 	{
-		aux = array[i + 1];
-		array[i + 1] = array[high];
-		array[high] = aux;
+		temp_var = array[i];
+		array[i] = array[high];
+		array[high] = temp_var;
 		print_array(array, size);
 	}
-	return (i + 1);
+	return (i);
 }
